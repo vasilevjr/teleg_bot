@@ -1,5 +1,5 @@
-from aiogram import types, Dispatcher, Bot, executor
-from config import bot, dp, ADMINS
+from aiogram import types, Dispatcher
+from config import bot, ADMINS
 from asyncio import sleep
 
 
@@ -11,7 +11,6 @@ async def dice_game2(message: types.Message):
         await sleep(2)
     else:
         await message.answer("Ты не админ, тебе нельзя ):")
-
 
 
     await bot.send_message(message.from_user.id, "Бот кидает!")
