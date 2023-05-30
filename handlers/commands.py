@@ -3,7 +3,7 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from config import bot
 from requests import get
 from .keyboards import start_markup
-
+from database.bot_db import sql_command_random
 
 async def start_hendler(message: types.Message):
     await message.answer(F"Приветствуем Вас - {message.from_user.full_name}!",
@@ -71,8 +71,16 @@ async def info_hendler(message: types.Message):
     await message.answer(F'Сам разбирайся!')
 
 
+async def get_user(message: types.Message):
+    user: tuple = await sql_command_random()
+    await message.answer(f"{user[1]}\n{user[2]}\n"
+                         f"{user[3]}\n{user[-1]}"
+    )
+
+
 def register_message_commands(dp: Dispatcher):
     dp.register_message_handler(start_hendler, commands=["start", "help"])
     dp.register_message_handler(quiz_1, commands=["quiz"])
     dp.register_message_handler(message_hendler_photo, commands=["techologies"])
     dp.register_message_handler(info_hendler, commands=["info"])
+    dp.register_message_handler(get_user, commands=['get'])
