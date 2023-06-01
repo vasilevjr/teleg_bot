@@ -1,11 +1,14 @@
+import asyncio
+
 from aiogram import executor
 import logging
 
 from config import dp, bot, ADMINS
-from handlers import commands, callback, admin, extra, FSM_Admin_clients, dice_games
+from handlers import commands, callback, admin, extra, FSM_Admin_clients, dice_games, notification
 from database.bot_db import sql_create
 
 async def on_startup(db):
+    asyncio.create_task(notification.set_scheduler())
     await bot.send_message(ADMINS[0], "Я включен!")
     sql_create()
 

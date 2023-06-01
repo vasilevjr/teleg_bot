@@ -1,5 +1,4 @@
-# SQL - Structured Querry Language
-# СУБД - Система Управления Базой Данных
+
 import random
 import sqlite3 as sl
 
@@ -44,3 +43,4 @@ async def sql_command_delete(id: str):
 
 async def sql_command_all():
     return cursor.execute("SELECT * FROM anketa").fetchall()
+
