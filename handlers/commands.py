@@ -4,6 +4,8 @@ from config import bot
 from requests import get
 from .keyboards import start_markup
 from database.bot_db import sql_command_random
+from parser.catalog import parser
+
 
 async def start_hendler(message: types.Message):
     await message.answer(F"Приветствуем Вас - {message.from_user.full_name}!",
@@ -78,9 +80,18 @@ async def get_user(message: types.Message):
     )
 
 
+async def catalog_handler(message: types.Message):
+    for data in parser():
+        await message.answer_photo(
+            data['img'],
+            caption=f"{data['title']}\n"
+                    f"{data['info']}\n"
+                    f"{data['price']}\n"
+        )
 def register_message_commands(dp: Dispatcher):
     dp.register_message_handler(start_hendler, commands=["start", "help"])
     dp.register_message_handler(quiz_1, commands=["quiz"])
     dp.register_message_handler(message_hendler_photo, commands=["techologies"])
     dp.register_message_handler(info_hendler, commands=["info"])
     dp.register_message_handler(get_user, commands=['get'])
+    dp.register_message_handler(catalog_handler, commands=['catalog'])

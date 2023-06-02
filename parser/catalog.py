@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
+
 URL = "https://voda59.ru/catalog"
 
 HEADERS = {
@@ -19,12 +20,20 @@ def get_data(html):
     parsed_data = []
     for item in items:
         parsed_data.append({
-            "product": item.find('h3', class_='head head-sm head_c_dark_blue pc__head').getText(),
+            "title": item.find('h3', class_='head head-sm head_c_dark_blue pc__head').getText(),
             "info": item.find('ul', class_='pc__ul').getText(),
             "price": item.find('div', class_='pc__price-new').getText(),
-            "imj": item.find('img').get
+            "img": item.find('img').get('src')
         })
         return parsed_data
+
+
+def parser():
+    html = get_html(URL)
+    if html.status_code == 200:
+        parsed_data = get_data(html.text)
+        return parsed_data
+    raise Exception("Ошибка в парсере!")
 
 
 
